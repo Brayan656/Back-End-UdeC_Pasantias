@@ -49,7 +49,7 @@ public class EmpresaController {
 	public ResponseEntity edit(@PathVariable(value = "id")String id, @RequestBody EmpresaDTO post) {
 		return new ResponseEntity(service.edit(id,post),HttpStatus.OK);
 	}
-	@DeleteMapping(value = "/{id}/delete")
+	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity delete(@PathVariable(value = "id") String id) {
 		return new ResponseEntity(service.delete(id),HttpStatus.OK);
 	}
