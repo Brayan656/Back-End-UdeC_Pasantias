@@ -12,18 +12,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.UdecPasantiasBack.dto.EstudiantesDTO;
+import com.UdecPasantiasBack.dto.PublicacionesDTO;
 import com.UdecPasantiasBack.sevice.EstudiantesService;
-import com.UdecPasantiasBack.sevice.implement.EstudiantesServicesImpl;
+import com.UdecPasantiasBack.sevice.implement.PublicacionService;
 
 @RestController
-@RequestMapping(value = "student")
-public class EstudianteController {
+@RequestMapping(value = "publicacion")
+public class PublicacionesController {
+
 	@Autowired
-	private EstudiantesServicesImpl service;
+	private PublicacionService service;
 	
 	@GetMapping(value = "/greet")
 	public String greet() {
@@ -40,24 +41,17 @@ public class EstudianteController {
 		return new ResponseEntity(service.list(),HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/estudiante")
-	public EstudiantesDTO student(@RequestParam String id) throws InterruptedException, ExecutionException {
-		return service.getEstudiante(id);
-	}
-	
-	
-	@PostMapping(value = "/add")
-	public ResponseEntity add(@RequestBody EstudiantesDTO post) throws ExecutionException  {
-		return new ResponseEntity(service.add(post),HttpStatus.OK);
+	@PostMapping(value = "/add/{id}")
+	public ResponseEntity add(@RequestBody PublicacionesDTO post, @PathVariable(value = "id") String id) throws ExecutionException  {
+		return new ResponseEntity(service.add(post,id),HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/{id}/update")
-	public ResponseEntity edit(@PathVariable(value = "id")String id, @RequestBody EstudiantesDTO post) {
+	public ResponseEntity edit(@PathVariable(value = "id")String id, @RequestBody PublicacionesDTO post) {
 		return new ResponseEntity(service.edit(id,post),HttpStatus.OK);
 	}
 	@DeleteMapping(value = "/{id}/delete")
 	public ResponseEntity delete(@PathVariable(value = "id") String id) {
 		return new ResponseEntity(service.delete(id),HttpStatus.OK);
 	}
-
 }

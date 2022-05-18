@@ -1,8 +1,6 @@
 package com.UdecPasantiasBack.sevice.implement;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,49 +9,31 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.UdecPasantiasBack.dto.EstudiantesDTO;
+import com.UdecPasantiasBack.dto.EmpresaDTO;
+import com.UdecPasantiasBack.dto.PublicacionesDTO;
 import com.UdecPasantiasBack.firebase.FirebaseInitializer;
-import com.UdecPasantiasBack.sevice.EstudiantesService;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.v1.FirestoreClient;
 
 @Service
-public class EstudiantesServicesImpl {
-
+public class PublicacionService {
 	@Autowired//permite una sola instancia
 	private FirebaseInitializer firebase;
 	
-
-	public EstudiantesDTO getEstudiante(String id) throws InterruptedException, ExecutionException{
-		firebase.getFirestore();
-		DocumentReference documentReference= ((Firestore) firebase).collection("Estudiante").document(id);
-		ApiFuture<DocumentSnapshot>future=documentReference.get();
-		DocumentSnapshot document=future.get(); 
-		EstudiantesDTO estuiante;
-		if (document.exists()) {
-			estuiante=document.toObject(EstudiantesDTO.class);
-			return estuiante;
-		}
-		return null;
-		
-	}
 	
-	public List<EstudiantesDTO> list() {
+	public List<PublicacionesDTO> list() {
 		// TODO Auto-generated method stub
-		List<EstudiantesDTO> response=new ArrayList<>();
-		EstudiantesDTO estudiante;
+		List<PublicacionesDTO> response=new ArrayList<>();
+		PublicacionesDTO empresa;
 		
 		ApiFuture<QuerySnapshot> querySnapshotApiFuture = getCollection().get();
 		try {
 			for (DocumentSnapshot doc : querySnapshotApiFuture.get().getDocuments()) {
-				estudiante = doc.toObject(EstudiantesDTO.class);
-				estudiante.setId(doc.getId());
-				response.add(estudiante);
+				empresa = doc.toObject(PublicacionesDTO.class);
+				empresa.setId(doc.getId());
+				response.add(empresa);
 			}
 			return response;
 		} catch (InterruptedException e) {
@@ -67,10 +47,10 @@ public class EstudiantesServicesImpl {
 		return null;
 	}
 
-
-	public Boolean add(EstudiantesDTO estudiante) {
+	public Boolean add(PublicacionesDTO empresa,String id) {
 		// TODO Auto-generated method stub
-		Map<String, Object> docData = getDocData(estudiante);
+		empresa.setId_Empresa(id);
+		Map<String, Object> docData = getDocData(empresa);
 		
 		
 		CollectionReference posts=getCollection();
@@ -86,10 +66,10 @@ public class EstudiantesServicesImpl {
 		return null;
 	}
 	
-
-	public Boolean edit(String id, EstudiantesDTO estudiante) {
+	public Boolean edit(String id, PublicacionesDTO empresa) {
 		// TODO Auto-generated method stub
-		Map<String, Object> docData = getDocData(estudiante);
+		
+		Map<String, Object> docData = getDocData(empresa);
 		
 		
 		CollectionReference posts=getCollection();
@@ -106,7 +86,6 @@ public class EstudiantesServicesImpl {
 		
 		return null;
 	}
-
 
 	public Boolean delete(String id) {
 		// TODO Auto-generated method stub
@@ -125,29 +104,24 @@ public class EstudiantesServicesImpl {
 		return null;
 	}
 	
-
-	
 	
 	
 	
 	
 	
 	private CollectionReference getCollection() {
-		return firebase.getFirestore().collection("Estudiante");//nombre de la coleccion(tabla de la bd)
+		return firebase.getFirestore().collection("Publicacion");//nombre de la coleccion(tabla de la bd)
 	}
 	
-	private Map<String, Object> getDocData(EstudiantesDTO estudiante) {
+	private Map<String, Object> getDocData(PublicacionesDTO empresa) {
 		Map<String,Object> docData=new HashMap<>();
-		docData.put("nombre", estudiante.getNombre());
-		docData.put("apellido", estudiante.getApellido());
-		docData.put("correo", estudiante.getCorreo());
-		docData.put("contraseña", estudiante.getContraseña());
-		docData.put("imagen", estudiante.getImagen());
-		docData.put("hoja_De_Vida", estudiante.getHoja_De_Vida());
+		docData.put("titulo", empresa.getTitulo());
+		docData.put("url", empresa.getUrl());
+		docData.put("tipoOferta", empresa.getTipoOferta());
+		docData.put("descripcion", empresa.getDescripcion());
+		docData.put("cantidad_Vacantes", empresa.getCantidad_Vacantes());
+		docData.put("id_Empresa", empresa.getId_Empresa());
 		return docData;
 	}
 
-
-
-	
 }
