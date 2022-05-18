@@ -11,4 +11,5 @@ public class PublicacionesDTO {
 	private String tipoOferta;
 	private String descripcion;
 	private int cantidad_Vacantes;
+	private String id_Empresa;
 }

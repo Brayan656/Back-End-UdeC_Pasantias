@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutionException;
 
 import com.UdecPasantiasBack.dto.EstudiantesDTO;
 
-public interface EstudiantesService {
+public interface EstudiantesService{
 	List<EstudiantesDTO> list();
 
     Boolean add(EstudiantesDTO estudiante) throws ExecutionException;
@@ -13,4 +13,8 @@ public interface EstudiantesService {
     Boolean edit(String id,EstudiantesDTO estudiante);
 
     Boolean delete(String id);
+    
+    EstudiantesDTO estudiante(String id) ;
+
+	EstudiantesDTO estudiante(int id);
 }
