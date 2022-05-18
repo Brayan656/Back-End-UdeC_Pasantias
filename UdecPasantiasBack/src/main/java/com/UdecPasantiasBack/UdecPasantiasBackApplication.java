@@ -10,6 +10,7 @@ public class UdecPasantiasBackApplication {
 //		netstat -ao |find /i "listening"
 //		buscar el puerto que diga 8080 y copiar el id
 //			TCP    0.0.0.0:8080           DESKTOP-8VHQT0L:0      LISTENING       5856
+//			TCP    0.0.0.0:8080           Jimmy-Rueda:0          LISTENING       10392
 //		ingresar el siguiente comando cambiando el id
 //		Taskkill /F /IM 5856
 	
