@@ -2,8 +2,6 @@ package com.UdecPasantiasBack.controller;
 
 import java.util.concurrent.ExecutionException;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.UdecPasantiasBack.dto.PostDTO;
-import com.UdecPasantiasBack.sevice.PostManagementSercice;
+import com.UdecPasantiasBack.dto.EstudiantesDTO;
+import com.UdecPasantiasBack.sevice.EstudiantesService;
 
 @RestController
-@RequestMapping(value = "post")
-public class PostController {
-//https://gist.github.com/BCasal/026e4c7f5c71418485c1
+@RequestMapping(value = "student")
+public class EstudianteController {
 	@Autowired
-	private PostManagementSercice service;
+	private EstudiantesService service;
 	
 	@GetMapping(value = "/greet")
 	public String greet() {
@@ -42,16 +39,17 @@ public class PostController {
 	}
 	
 	@PostMapping(value = "/add")
-	public ResponseEntity add(@RequestBody PostDTO post) throws ExecutionException  {
+	public ResponseEntity add(@RequestBody EstudiantesDTO post) throws ExecutionException  {
 		return new ResponseEntity(service.add(post),HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/{id}/update")
-	public ResponseEntity edit(@PathVariable(value = "id")String id, @RequestBody PostDTO post) {
+	public ResponseEntity edit(@PathVariable(value = "id")String id, @RequestBody EstudiantesDTO post) {
 		return new ResponseEntity(service.edit(id,post),HttpStatus.OK);
 	}
 	@DeleteMapping(value = "/{id}/delete")
 	public ResponseEntity delete(@PathVariable(value = "id") String id) {
 		return new ResponseEntity(service.delete(id),HttpStatus.OK);
 	}
+
 }

@@ -1,43 +1,41 @@
 package com.UdecPasantiasBack.sevice.implement;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scripting.bsh.BshScriptUtils.BshExecutionException;
 import org.springframework.stereotype.Service;
 
-import com.UdecPasantiasBack.dto.PostDTO;
+import com.UdecPasantiasBack.dto.EstudiantesDTO;
 import com.UdecPasantiasBack.firebase.FirebaseInitializer;
-import com.UdecPasantiasBack.sevice.PostManagementSercice;
+import com.UdecPasantiasBack.sevice.EstudiantesService;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.google.firestore.v1.WriteResult;
-import com.google.common.util.concurrent.ExecutionSequencer;
 
 @Service
-public class PostManagmentServiceImpl implements PostManagementSercice {
+public class EstudiantesServicesImpl implements EstudiantesService {
 
-	@Autowired
+	@Autowired//permite una sola instancia
 	private FirebaseInitializer firebase;
 	
 	@Override
-	public List<PostDTO> list() {
+	public List<EstudiantesDTO> list() {
 		// TODO Auto-generated method stub
-		List<PostDTO> response=new ArrayList<>();
-		PostDTO post;
+		List<EstudiantesDTO> response=new ArrayList<>();
+		EstudiantesDTO estudiante;
 		
 		ApiFuture<QuerySnapshot> querySnapshotApiFuture = getCollection().get();
 		try {
 			for (DocumentSnapshot doc : querySnapshotApiFuture.get().getDocuments()) {
-				post = doc.toObject(PostDTO.class);
-				post.setId(doc.getId());
-				response.add(post);
+				estudiante = doc.toObject(EstudiantesDTO.class);
+				estudiante.setId(doc.getId());
+				response.add(estudiante);
 			}
 			return response;
 		} catch (InterruptedException e) {
@@ -52,9 +50,9 @@ public class PostManagmentServiceImpl implements PostManagementSercice {
 	}
 
 	@Override
-	public Boolean add(PostDTO post) {
+	public Boolean add(EstudiantesDTO estudiante) {
 		// TODO Auto-generated method stub
-		Map<String, Object> docData = getDocData(post);
+		Map<String, Object> docData = getDocData(estudiante);
 		
 		
 		CollectionReference posts=getCollection();
@@ -71,9 +69,9 @@ public class PostManagmentServiceImpl implements PostManagementSercice {
 	}
 	
 	@Override
-	public Boolean edit(String id, PostDTO post) {
+	public Boolean edit(String id, EstudiantesDTO estudiante) {
 		// TODO Auto-generated method stub
-		Map<String, Object> docData = getDocData(post);
+		Map<String, Object> docData = getDocData(estudiante);
 		
 		
 		CollectionReference posts=getCollection();
@@ -115,14 +113,17 @@ public class PostManagmentServiceImpl implements PostManagementSercice {
 	
 	
 	private CollectionReference getCollection() {
-		return firebase.getFirestore().collection("post");
+		return firebase.getFirestore().collection("Estudiante");//nombre de la coleccion(tabla de la bd)
 	}
 	
-	private Map<String, Object> getDocData(PostDTO post) {
+	private Map<String, Object> getDocData(EstudiantesDTO estudiante) {
 		Map<String,Object> docData=new HashMap<>();
-		docData.put("title", post.getTitle());
-		docData.put("content", post.getContent());
+		docData.put("nombre", estudiante.getNombre());
+		docData.put("apellido", estudiante.getApellido());
+		docData.put("correo", estudiante.getCorreo());
+		docData.put("contraseña", estudiante.getContraseña());
+		docData.put("imagen", estudiante.getImagen());
+		docData.put("hoja_De_Vida", estudiante.getHoja_De_Vida());
 		return docData;
 	}
-
 }
