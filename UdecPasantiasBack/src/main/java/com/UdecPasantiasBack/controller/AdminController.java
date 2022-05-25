@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.UdecPasantiasBack.dto.Admin_ConvenioDTO;
@@ -45,6 +46,11 @@ public class AdminController {
 		return new ResponseEntity(service.list(),HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/convenio/adminConvenio")
+	public Admin_ConvenioDTO adminConvenio(@RequestParam String id) throws InterruptedException, ExecutionException {
+		return service.getAdminConvenio(id);
+	}
+	
 	@PostMapping(value = "/convenio/add")
 	public ResponseEntity add(@RequestBody Admin_ConvenioDTO post) throws ExecutionException  {
 		return new ResponseEntity(service.add(post),HttpStatus.OK);
@@ -70,6 +76,11 @@ public class AdminController {
 	@GetMapping(value = "/isu/list")
 	public ResponseEntity listISU() {
 		return new ResponseEntity(service.listISU(),HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/isu/admin")
+	public Admin_ISU_DTO adminISU(@RequestParam String id) throws InterruptedException, ExecutionException {
+		return service.getAdminISU(id);
 	}
 	
 	@PostMapping(value = "/isu/add")

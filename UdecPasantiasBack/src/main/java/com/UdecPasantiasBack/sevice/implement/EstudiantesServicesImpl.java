@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 
 import com.UdecPasantiasBack.dto.EstudiantesDTO;
 import com.UdecPasantiasBack.firebase.FirebaseInitializer;
-import com.UdecPasantiasBack.sevice.EstudiantesService;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.v1.FirestoreClient;
+import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class EstudiantesServicesImpl {
@@ -30,8 +30,8 @@ public class EstudiantesServicesImpl {
 	
 
 	public EstudiantesDTO getEstudiante(String id) throws InterruptedException, ExecutionException{
-		firebase.getFirestore();
-		DocumentReference documentReference= ((Firestore) firebase).collection("Estudiante").document(id);
+		Firestore firebase=FirestoreClient.getFirestore();
+		DocumentReference documentReference= firebase.collection("Estudiante").document(id);
 		ApiFuture<DocumentSnapshot>future=documentReference.get();
 		DocumentSnapshot document=future.get(); 
 		EstudiantesDTO estuiante;

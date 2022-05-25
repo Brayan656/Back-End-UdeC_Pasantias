@@ -11,12 +11,15 @@ import org.springframework.stereotype.Service;
 
 import com.UdecPasantiasBack.dto.Admin_ConvenioDTO;
 import com.UdecPasantiasBack.dto.Admin_ISU_DTO;
-import com.UdecPasantiasBack.dto.EstudiantesDTO;
 import com.UdecPasantiasBack.firebase.FirebaseInitializer;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
+
+import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class AdminnistradorService {
@@ -25,6 +28,20 @@ public class AdminnistradorService {
 	private FirebaseInitializer firebase;
 	
 //ADMINISTRADOR CONVENIOS
+	
+	public Admin_ConvenioDTO getAdminConvenio(String id) throws InterruptedException, ExecutionException{
+		Firestore firebase=FirestoreClient.getFirestore();
+		DocumentReference documentReference= ((Firestore) firebase).collection("Admin_Convenios").document(id);
+		ApiFuture<DocumentSnapshot>future=documentReference.get();
+		DocumentSnapshot document=future.get(); 
+		Admin_ConvenioDTO admin;
+		if (document.exists()) {
+			admin=document.toObject(Admin_ConvenioDTO.class);
+			return admin;
+		}
+		return null;
+		
+	}
 	public List<Admin_ConvenioDTO> list() {
 		// TODO Auto-generated method stub
 		List<Admin_ConvenioDTO> response=new ArrayList<>();
@@ -129,6 +146,19 @@ public class AdminnistradorService {
  * 
  * 
  * */
+	public Admin_ISU_DTO getAdminISU(String id) throws InterruptedException, ExecutionException{
+		Firestore firebase=FirestoreClient.getFirestore();
+		DocumentReference documentReference= ((Firestore) firebase).collection("Admin_ISU").document(id);
+		ApiFuture<DocumentSnapshot>future=documentReference.get();
+		DocumentSnapshot document=future.get(); 
+		Admin_ISU_DTO admin;
+		if (document.exists()) {
+			admin=document.toObject(Admin_ISU_DTO.class);
+			return admin;
+		}
+		return null;
+		
+	}
 	public List<Admin_ISU_DTO> listISU() {
 		// TODO Auto-generated method stub
 		List<Admin_ISU_DTO> response=new ArrayList<>();
