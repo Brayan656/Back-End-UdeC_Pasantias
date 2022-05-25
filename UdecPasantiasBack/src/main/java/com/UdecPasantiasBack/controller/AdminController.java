@@ -54,7 +54,7 @@ public class AdminController {
 	public ResponseEntity edit(@PathVariable(value = "id")String id, @RequestBody Admin_ConvenioDTO post) {
 		return new ResponseEntity(service.edit(id,post),HttpStatus.OK);
 	}
-	@DeleteMapping(value = "/convenio/{id}/delete")
+	@DeleteMapping(value = "/convenio/delete/{id}")
 	public ResponseEntity delete(@PathVariable(value = "id") String id) {
 		return new ResponseEntity(service.delete(id),HttpStatus.OK);
 	}
