@@ -50,7 +50,7 @@ public class AdminController {
 		return new ResponseEntity(service.add(post),HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/convenio/{id}/update")
+	@PutMapping(value = "/convenio/update/{id}")
 	public ResponseEntity edit(@PathVariable(value = "id")String id, @RequestBody Admin_ConvenioDTO post) {
 		return new ResponseEntity(service.edit(id,post),HttpStatus.OK);
 	}
@@ -81,7 +81,7 @@ public class AdminController {
 	public ResponseEntity editISU(@PathVariable(value = "id")String id, @RequestBody Admin_ISU_DTO post) {
 		return new ResponseEntity(service.editISU(id,post),HttpStatus.OK);
 	}
-	@DeleteMapping(value = "/isu/{id}/delete")
+	@DeleteMapping(value = "/isu/delete/{id}")
 	public ResponseEntity deleteISU(@PathVariable(value = "id") String id) {
 		return new ResponseEntity(service.deleteISU(id),HttpStatus.OK);
 	}
