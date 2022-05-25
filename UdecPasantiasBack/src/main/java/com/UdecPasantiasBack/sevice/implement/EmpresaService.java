@@ -9,19 +9,36 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.UdecPasantiasBack.dto.Admin_ConvenioDTO;
 import com.UdecPasantiasBack.dto.EmpresaDTO;
 import com.UdecPasantiasBack.firebase.FirebaseInitializer;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
+
+import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class EmpresaService {
 	@Autowired//permite una sola instancia
 	private FirebaseInitializer firebase;
 	
-	
+	public EmpresaDTO getEmpresa(String id) throws InterruptedException, ExecutionException{
+		Firestore firebase=FirestoreClient.getFirestore();
+		DocumentReference documentReference= ((Firestore) firebase).collection("Empresa").document(id);
+		ApiFuture<DocumentSnapshot>future=documentReference.get();
+		DocumentSnapshot document=future.get(); 
+		EmpresaDTO empresa;
+		if (document.exists()) {
+			empresa=document.toObject(EmpresaDTO.class);
+			return empresa;
+		}
+		return null;
+		
+	}
 	public List<EmpresaDTO> list() {
 		// TODO Auto-generated method stub
 		List<EmpresaDTO> response=new ArrayList<>();

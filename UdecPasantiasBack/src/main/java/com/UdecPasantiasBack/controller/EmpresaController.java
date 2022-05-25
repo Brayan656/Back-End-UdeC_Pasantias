@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.UdecPasantiasBack.dto.Admin_ConvenioDTO;
 import com.UdecPasantiasBack.dto.EmpresaDTO;
 import com.UdecPasantiasBack.dto.EstudiantesDTO;
 import com.UdecPasantiasBack.sevice.EstudiantesService;
@@ -38,6 +40,10 @@ public class EmpresaController {
 	@GetMapping(value = "/list")
 	public ResponseEntity list() {
 		return new ResponseEntity(service.list(),HttpStatus.OK);
+	}
+	@GetMapping(value = "/empresa")
+	public EmpresaDTO empresa(@RequestParam String id) throws InterruptedException, ExecutionException {
+		return service.getEmpresa(id);
 	}
 	
 	@PostMapping(value = "/add")
